@@ -1,0 +1,15 @@
+{
+  "name": "broccoli-systemjs",
+  "version": "0.1.0",
+  "description": "Broccoli SystemJS Bundle Builder",
+  "repository": "https://github.com/chrmod/broccoli-systemjs",
+  "author": "Krzysztof Jan Modras <chrmod@chrmod.net>",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "raureif test"
+  },
+  "devDependencies": {
+    "raureif": "^1.6.0"
+  }
+}
