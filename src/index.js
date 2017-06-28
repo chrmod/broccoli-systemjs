@@ -3,7 +3,7 @@ import Builder from 'systemjs-builder';
 import path from 'path';
 import glob from 'glob';
 
-export default class extends Plugin {
+export default class BroccoliSystemjs extends Plugin {
 
   constructor(inputNode, { annotation, systemConfig = {} } = {}) {
     super([inputNode], {
@@ -23,7 +23,8 @@ export default class extends Plugin {
       let builder = this.builders.get(inputFile);
 
       if (!builder) {
-        builder = new Builder();
+        builder = new Builder(inputPath);
+
         builder.config(this.systemConfig);
 
         this.builders.set(inputFile, builder);
