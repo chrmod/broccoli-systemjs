@@ -8,7 +8,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "raureif serve",
-    "build": "raureif test",
+    "build": "raureif build dist",
     "test": "raureif test"
   },
   "files": [
@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "broccoli-plugin": "^1.3.0",
+    "glob": "^7.1.2",
     "systemjs-builder": "^0.16.9"
   }
 }

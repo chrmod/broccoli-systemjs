@@ -1,25 +1,43 @@
 import Plugin from 'broccoli-plugin';
 import Builder from 'systemjs-builder';
 import path from 'path';
+import glob from 'glob';
 
 export default class extends Plugin {
 
-  constructor(inputNode, inputFile, { annotation, systemConfig = {} } = {}) {
+  constructor(inputNode, { annotation, systemConfig = {} } = {}) {
     super([inputNode], {
       annotation,
     });
 
     this.systemConfig = systemConfig;
-    this.inputFile = inputFile;
-    this.builder = new Builder();
+    this.builders = new Map();
   }
 
   build() {
-    this.builder.config(this.systemConfig);
+    const inputPath = this.inputPaths[0];
+    const outputPath = this.outputPath;
+    const bundles = glob.sync('**/*.bundle.js', {
+      cwd: inputPath,
+    }).map((inputFile) => {
+      let builder = this.builders.get(inputFile);
 
-    return this.builder.buildStatic(
-      path.join(this.inputPaths[0], this.inputFile),
-      path.join(this.outputPath, this.inputFile),
-    );
+      if (!builder) {
+        builder = new Builder();
+        builder.config(this.systemConfig);
+
+        this.builders.set(inputFile, builder);
+      }
+
+      builder.invalidate('*');
+
+      return builder.buildStatic(
+        path.join(inputPath, inputFile),
+        path.join(outputPath, inputFile),
+      );
+    });
+
+    return Promise.all(bundles);
   }
+
 }
