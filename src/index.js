@@ -19,6 +19,7 @@ export default class BroccoliSystemjs extends Plugin {
     const outputPath = this.outputPath;
     const bundles = glob.sync('**/*.bundle.js', {
       cwd: inputPath,
+      follow: true,
     }).map((inputFile) => {
       let builder = this.builders.get(inputFile);
 
