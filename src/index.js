@@ -35,7 +35,7 @@ export default class BroccoliSystemjs extends Plugin {
       this.builders.set(inputFile, builder);
 
       return builder.buildStatic(
-        path.join(inputPath, inputFile),
+        inputFile,
         path.join(outputPath, inputFile),
         this.builderConfig,
       );
