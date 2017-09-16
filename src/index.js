@@ -12,34 +12,28 @@ export default class BroccoliSystemjs extends Plugin {
 
     this.systemConfig = systemConfig;
     this.builderConfig = builderConfig;
-    this.builders = new Map();
   }
 
   build() {
     const inputPath = this.inputPaths[0];
     const outputPath = this.outputPath;
+
+    if (!this.builder) {
+      this.builder = new Builder(inputPath);
+    } else {
+      this.builder.reset();
+    }
+
+    this.builder.config(this.systemConfig);
+
     const bundles = glob.sync('**/*.bundle.js', {
       cwd: inputPath,
       follow: true,
-    }).map((inputFile) => {
-      let builder = this.builders.get(inputFile);
-
-      if (!builder) {
-        builder = new Builder(inputPath);
-      }
-
-      builder.reset();
-
-      builder.config(this.systemConfig);
-
-      this.builders.set(inputFile, builder);
-
-      return builder.buildStatic(
-        inputFile,
-        path.join(outputPath, inputFile),
-        this.builderConfig,
-      );
-    });
+    }).map(inputFile => this.builder.buildStatic(
+      inputFile,
+      path.join(outputPath, inputFile),
+      this.builderConfig,
+    ));
 
     return Promise.all(bundles);
   }
