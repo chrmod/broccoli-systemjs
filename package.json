@@ -8,9 +8,13 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "raureif serve",
-    "build": "raureif build dist",
+    "build": "raureif build",
     "test": "raureif test"
   },
+  "keywords": [
+    "broccoli-plugin",
+    "javascript"
+  ],
   "files": [
     "dist/*"
   ],
