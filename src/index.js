@@ -5,11 +5,19 @@ import glob from 'glob';
 
 export default class BroccoliSystemjs extends Plugin {
 
-  constructor(inputNode, { annotation, systemConfig = {}, builderConfig = {} } = {}) {
+  constructor(
+    inputNode, {
+      annotation,
+      systemConfig = {},
+      builderConfig = {},
+      srcDir,
+    } = {},
+  ) {
     super([inputNode], {
       annotation,
     });
 
+    this.srcDir = srcDir;
     this.systemConfig = systemConfig;
     this.builderConfig = builderConfig;
     this.builders = new Map();
@@ -28,7 +36,11 @@ export default class BroccoliSystemjs extends Plugin {
         builder = new Builder(inputPath);
       }
 
-      builder.reset();
+      if (this.srcDir) {
+        builder.invalidate(`${this.srcDir}/*`);
+      } else {
+        builder.reset();
+      }
 
       builder.config(this.systemConfig);
 
