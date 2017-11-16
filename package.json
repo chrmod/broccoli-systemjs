@@ -1,6 +1,6 @@
 {
   "name": "broccoli-systemjs",
-  "version": "0.2.1",
+  "version": "0.3.1",
   "description": "Broccoli SystemJS Bundle Builder",
   "repository": "https://github.com/chrmod/broccoli-systemjs",
   "author": "Krzysztof Jan Modras <chrmod@chrmod.net>",
